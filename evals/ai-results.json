@@ -1,0 +1,30 @@
+{
+  "results": [
+    {
+      "case": "no_result",
+      "status": "BLOCKED",
+      "reason": "ProviderError"
+    },
+    {
+      "case": "grounded",
+      "status": "BLOCKED",
+      "reason": "ProviderError"
+    },
+    {
+      "case": "schedule_clarify",
+      "status": "BLOCKED",
+      "reason": "ProviderError"
+    },
+    {
+      "case": "opt_out",
+      "status": "BLOCKED",
+      "reason": "ProviderError"
+    },
+    {
+      "case": "injection",
+      "status": "BLOCKED",
+      "reason": "ProviderError"
+    }
+  ],
+  "note": "No groundedness or tool-success score is inferred from schema validity."
+}

@@ -1,0 +1,527 @@
+VOICEOPS — CONTINUATION BUILD AUTHORIZATION
+
+Use the attached existing VoiceOps source checkpoint as the current implementation baseline.
+
+Also use all authoritative VoiceOps documentation in this project and the attached VoiceOps ZIP Audit as the release-blocking defect list.
+
+IMPORTANT:
+
+DO NOT rebuild VoiceOps from scratch.
+
+DO NOT discard the useful existing backend architecture.
+
+Continue from the existing implementation.
+
+The current ZIP already contains meaningful work including:
+
+- domain models
+- authentication/security helpers
+- provider abstractions
+- production/local provider adapters
+- ProviderManager/failover concepts
+- Voice Engine
+- media handling
+- Plivo integration foundation
+- RAG ingestion/retrieval
+- Tool Gateway/domain actions
+- consent/opt-out behavior
+- background jobs
+- API/WebSocket routes
+
+Preserve these where correct.
+
+Your task is to transform this SOURCE CHECKPOINT into the closest genuinely working end-to-end VoiceOps release that the environment permits.
+
+==================================================
+1. READ BEFORE MODIFYING
+==================================================
+
+First read completely:
+
+1. the current VoiceOps source ZIP
+2. VoiceOps_PRD_v1.0.md
+3. the latest APPROVED/FROZEN VoiceOps_FRD
+4. END-TO-END-VERIFIED-PROJECT-ZIP — MASTER BUILD DIRECTIVE
+5. VoiceOps_Astra_Execution_Prompt_v1.0.md
+6. VoiceOps_ZIP_Audit_2026-10-04.md
+7. all other approved VoiceOps project documents currently present
+
+The documentation defines TARGET behavior.
+
+The repository defines CURRENT behavior.
+
+The audit defines known gaps and defects.
+
+Your responsibility is:
+
+CURRENT IMPLEMENTATION
+        ↓
+REPAIR + COMPLETE
+        ↓
+TARGET IMPLEMENTATION
+
+not:
+
+CURRENT IMPLEMENTATION
+        ↓
+DELETE
+        ↓
+GENERATE A DIFFERENT PROJECT
+
+==================================================
+2. FIX RELEASE BLOCKERS FIRST
+==================================================
+
+Treat every P0 item in the audit as release blocking.
+
+At minimum:
+
+- replace/reconcile the stale FRD in the package
+- implement the frontend
+- make backend startup valid
+- add deterministic database migration/schema initialization
+- add first Tenant/Admin bootstrap
+- create complete `.env.example`
+- create Docker/local infrastructure configuration
+- create `START_HERE.md`
+- replace deprecated Groq defaults
+- revalidate/fix Sarvam contracts
+- revalidate/fix Plivo contracts
+
+Do not proceed to final packaging while startup remains broken.
+
+==================================================
+3. FIX VOICE CORRECTNESS DEFECTS
+==================================================
+
+Resolve the audit findings including:
+
+- STT deadline allocation
+- media lease ownership token
+- Plivo clear/clearedAudio acknowledgement
+- correct per-turn/utterance correlation
+- safe malformed tool argument behavior
+- controlled request validation errors
+- background-worker exception visibility
+- bounded configurable concurrency instead of permanently hardcoded one-call behavior
+
+Preserve the approved production-primary/local-fallback architecture.
+
+==================================================
+4. COMPLETE THE PRODUCT SURFACES
+==================================================
+
+Implement the actual connected frontend.
+
+At minimum:
+
+Dashboard
+Leads
+Lead Detail
+Campaigns
+Campaign Detail
+Calls
+Call Detail
+Knowledge Base
+Documents
+Meetings
+Follow-Ups
+Settings / Provider Status
+Evaluation Results
+
+Every important UI action must use real backend behavior.
+
+No fake metrics.
+No fake transcripts.
+No fake provider status.
+No decorative nonfunctional buttons.
+
+==================================================
+5. COMPLETE LOCAL RUN MODE
+==================================================
+
+Make the zero-cloud-AI development mode genuinely runnable where hardware permits:
+
+Browser/local audio
+→ Faster-Whisper
+→ Ollama
+→ Kokoro
+→ audio playback
+
+with:
+
+PostgreSQL
+Redis
+Qdrant
+
+Use the same Voice Engine and domain logic as production mode.
+
+Do not create a separate toy local implementation.
+
+==================================================
+6. COMPLETE PRODUCTION-LIKE MODE
+==================================================
+
+Preserve:
+
+Plivo
+→ Sarvam STT
+→ Groq
+→ Sarvam TTS
+
+Use current provider contracts.
+
+If credentials are available, exercise them.
+
+If credentials are unavailable, implement correctly and mark runtime verification BLOCKED.
+
+Never fabricate provider success.
+
+==================================================
+7. COMPLETE RAG + TOOLS
+==================================================
+
+Ensure the actual workflow works:
+
+Document
+→ extract
+→ chunk
+→ embed
+→ Qdrant
+→ tenant-filtered retrieval
+→ LLM context
+
+and:
+
+LLM tool request
+→ Tool Gateway
+→ validation
+→ authorization
+→ business rules
+→ idempotency
+→ durable action
+→ audit
+
+Verify:
+
+schedule_demo
+create_followup
+add_call_note
+update_lead
+set_call_outcome
+opt_out_contact
+
+Malformed tool input must produce controlled rejection/clarification rather than crash the call.
+
+==================================================
+8. COMPLETE OBSERVABILITY
+==================================================
+
+Implement actual Prometheus metrics and Grafana configuration for useful VoiceOps signals including where technically available:
+
+active calls
+queue depth
+STT latency
+LLM TTFT
+LLM duration
+TTS first audio
+turn latency
+RAG latency
+tool duration
+provider errors
+fallback invocation
+fallback success
+fallback overhead
+interruptions
+call duration
+
+Do not use high-cardinality tenant/call IDs as unrestricted metric labels.
+
+Use structured events/logs for detailed correlation.
+
+==================================================
+9. COMPLETE USAGE/COST ACCOUNTING
+==================================================
+
+Store available:
+
+STT usage
+LLM input/output tokens
+TTS usage
+telephony duration
+retry/fallback usage
+
+Support reproducible ESTIMATED cost calculations when pricing configuration is known.
+
+Do not represent estimates as provider-billed invoices.
+
+==================================================
+10. IMPLEMENT AI EVALUATIONS
+==================================================
+
+Create an executable evaluation runner.
+
+Include cases for:
+
+- grounded RAG answer
+- RAG no-result behavior
+- tenant isolation
+- correct tool selection
+- invalid tool rejection
+- duplicate tool prevention
+- scheduling clarification
+- opt-out
+- interruption
+- silence
+- eligible provider fallback
+- ineligible provider failure
+- primary + fallback failure
+- malformed structured output
+- summary correctness
+
+Execute what the environment allows.
+
+Do not manufacture results.
+
+==================================================
+11. RUN THE APPLICATION
+==================================================
+
+Do not stop after generating source.
+
+Actually attempt:
+
+dependency installation
+database startup
+Redis startup
+Qdrant startup
+database migration/init
+bootstrap
+backend startup
+frontend startup
+HTTP APIs
+WebSockets
+local Voice Engine
+RAG
+tools
+provider failover
+metrics
+
+Fix failures encountered.
+
+Re-run after fixing them.
+
+==================================================
+12. VERIFY THE PRIMARY JOURNEY
+==================================================
+
+Where dependencies permit:
+
+Lead
+→ Campaign
+→ eligibility
+→ outbound call
+→ user speaks
+→ STT
+→ LLM
+→ TTS
+→ audible response
+→ second turn
+→ business question
+→ RAG
+→ grounded response
+→ demo request
+→ Tool Gateway
+→ Meeting committed
+→ call ends
+→ summary
+→ outcome
+→ complete Call Detail timeline
+
+Do not claim VERIFIED unless exercised.
+
+==================================================
+13. VERIFY LOCAL FALLBACK
+==================================================
+
+Exercise primary/fallback behavior where possible.
+
+Record:
+
+failed provider
+failure class
+eligibility decision
+fallback provider
+fallback result
+added latency
+
+Invalid credentials must NOT silently trigger local fallback.
+
+==================================================
+14. SECURITY + QUALITY AUDIT
+==================================================
+
+Audit and fix:
+
+tenant isolation
+authorization
+tool boundaries
+prompt injection
+RAG filters
+WebSocket validation
+API validation
+rate limiting where appropriate
+payload bounds
+secret handling
+CORS
+logs
+provider credentials
+duplicate/replay side effects
+worker/media ownership races
+opt-out enforcement
+
+==================================================
+15. CLEAN INSTALL VERIFICATION
+==================================================
+
+Make the project usable from a clean extraction.
+
+Expected path:
+
+Extract
+→ read START_HERE.md
+→ install prerequisites
+→ copy .env.example
+→ select local or production-like mode
+→ start infrastructure
+→ migrate/init DB
+→ bootstrap first admin
+→ start backend
+→ start frontend
+→ use VoiceOps
+
+Fix anything undocumented.
+
+==================================================
+16. REQUIRED RELEASE DOCUMENTS
+==================================================
+
+Produce/update:
+
+START_HERE.md
+README.md
+.env.example
+
+docs/ASSUMPTIONS_AND_DECISIONS.md
+docs/ARCHITECTURE.md
+docs/PROVIDER_CONFIGURATION.md
+docs/AI_EVALS.md
+docs/VERIFICATION_REPORT.md
+docs/REQUIREMENTS_TRACEABILITY.md
+docs/IMPLEMENTATION_REPORT.md
+docs/REMEDIATION_LOG.md
+
+In REMEDIATION_LOG.md map every audit issue to:
+
+Audit ID
+→ root cause
+→ files changed
+→ fix
+→ verification
+→ final status
+
+==================================================
+17. STATUS TRUTH
+==================================================
+
+Use only:
+
+IMPLEMENTED
+VERIFIED
+AI-EVALUATED
+UNVERIFIED
+BLOCKED
+
+Do not call anything VERIFIED because source exists.
+
+Do not fabricate:
+
+phone call success
+provider responses
+latency
+cost
+fallback success
+AI evaluation score
+deployment success
+
+==================================================
+18. FINAL RELEASE GATE
+==================================================
+
+Before packaging, confirm:
+
+- application starts
+- frontend works
+- migrations/bootstrap work
+- local runtime path works where hardware permits
+- RAG works
+- tools work
+- fallback logic works where testable
+- important failure paths are controlled
+- observability exists
+- AI evaluations exist
+- documentation matches actual implementation
+- no credentials are included
+- clean installation was attempted
+
+Fix problems before packaging whenever the environment permits.
+
+==================================================
+19. FINAL ZIP
+==================================================
+
+Only after completing the implementation/remediation cycle, package:
+
+voiceops-v1-release-candidate.zip
+
+Inspect the ZIP after creating it.
+
+Do not package:
+
+.env
+real credentials
+private keys
+node_modules
+.venv
+__pycache__
+logs
+build caches
+IDE metadata
+large local model weights
+
+==================================================
+20. DO NOT STOP EARLY
+==================================================
+
+Do not stop after:
+
+planning,
+architecture,
+frontend generation,
+backend generation,
+or a first startup failure.
+
+Continue through:
+
+implementation
+→ startup
+→ debugging
+→ verification
+→ evaluation
+→ security audit
+→ clean installation
+→ release packaging.
+
+Only stop if a genuinely external blocker prevents further work.
+
+BEGIN CONTINUATION BUILD NOW.

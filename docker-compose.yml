@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:17.4
+    environment:
+      POSTGRES_DB: voiceops
+      POSTGRES_USER: voiceops
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U voiceops]
+      interval: 5s
+      retries: 20
+  redis:
+    image: redis:7.4.2-alpine
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 5s
+      retries: 20
+  qdrant:
+    image: qdrant/qdrant:v1.13.6
+    volumes: [qdrant_data:/qdrant/storage]
+  ollama:
+    image: ollama/ollama:0.6.8
+    volumes: [ollama_data:/root/.ollama]
+  app:
+    build:
+      context: .
+      args:
+        LOCAL_AI: ${LOCAL_AI:-false}
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://voiceops:${POSTGRES_PASSWORD}@postgres/voiceops
+    ports: [127.0.0.1:8000:8000]
+    volumes: [app_data:/data, './models:/models:ro']
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    volumes: ['./infra/prometheus.yml:/etc/prometheus/prometheus.yml:ro','./infra/metrics-token:/etc/prometheus/token:ro']
+  grafana:
+    image: grafana/grafana:11.6.0
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:?Set GRAFANA_PASSWORD}
+    ports: [127.0.0.1:3000:3000]
+    volumes: ['./infra/grafana:/etc/grafana/provisioning:ro',grafana_data:/var/lib/grafana]
+volumes:
+  postgres_data:
+  qdrant_data:
+  ollama_data:
+  app_data:
+  grafana_data:

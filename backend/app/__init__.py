@@ -1,0 +1,1 @@
+"""Standalone VoiceOps application."""

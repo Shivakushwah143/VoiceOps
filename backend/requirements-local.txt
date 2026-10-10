@@ -1,0 +1,6 @@
+-r requirements.txt
+faster-whisper==1.1.1
+kokoro==0.9.4
+soundfile==0.13.1
+scipy==1.15.2
+huggingface-hub==0.30.2

@@ -1,0 +1,1348 @@
+# END-TO-END VERIFIED PROJECT ZIP — MASTER BUILD DIRECTIVE
+
+You are responsible for converting the supplied project documentation into a complete, coherent, runnable project and delivering the final result as a clean ZIP archive.
+
+This is NOT a request to generate example code, scaffolding, pseudo-code, isolated components, or a partial prototype.
+
+Your responsibility is to produce the closest possible thing to a finished hackathon release that I can:
+
+1. download,
+2. extract,
+3. configure,
+4. install,
+5. start,
+6. use,
+7. demonstrate.
+
+The project has already gone through the product-definition process.
+
+Treat the supplied documentation as the project's source of truth.
+
+---
+
+# 1. PRIMARY OBJECTIVE
+
+Build the complete application end-to-end from the supplied documentation.
+
+The final project must be internally consistent across:
+
+* product requirements,
+* user journeys,
+* frontend,
+* backend,
+* database,
+* APIs,
+* authentication,
+* authorization,
+* storage,
+* AI functionality,
+* RAG if required,
+* agents if required,
+* external integrations,
+* environment configuration,
+* dependencies,
+* startup scripts,
+* documentation,
+* error states,
+* security controls,
+* AI evaluations,
+* and release packaging.
+
+Do not optimize for appearing complete.
+
+Optimize for:
+
+CORRECTNESS → CONSISTENCY → RUNNABILITY → DEMO READINESS → POLISH
+
+If something cannot genuinely be verified, say so.
+
+Never claim a feature works merely because source code for it exists.
+
+---
+
+# 2. AUTHORITATIVE PROJECT DOCUMENTS
+
+Before writing implementation code, read and reconcile all supplied project artifacts.
+
+The expected project-definition pipeline is:
+
+1. Understand Problem
+2. Research Similar Products
+3. PRD
+4. User Stories
+5. FRD
+6. Technical + Visual Design
+7. Locked Tech Stack
+8. Detailed Zero-Assumption Journeys
+9. Production AI Layer
+10. Data + API Contracts
+11. Acceptance Criteria Matrix
+12. Edge Cases + Failure Matrix
+13. Build Plan
+14. Initialization Prompt
+15. Implementation Master Prompt
+
+The implementation and release process then becomes:
+
+16. AI Evals where AI functionality exists
+17. Security + Quality Audit
+18. Requirements Traceability Audit
+19. Clean Installation Verification
+20. Runtime Verification
+21. Critical Journey Verification
+22. Release Packaging
+23. START_HERE.md
+24. IMPLEMENTATION_REPORT.md
+
+Do NOT introduce conventional unit-test, integration-test, frontend-test, E2E-test, coverage, or testing frameworks unless the supplied project requirements explicitly demand them.
+
+Formal evaluation effort should be spent on AI Evals where AI functionality exists.
+
+---
+
+# 3. SOURCE-OF-TRUTH PRIORITY
+
+If documentation appears contradictory, resolve conflicts using this priority:
+
+1. explicit latest user instruction
+2. locked technical decisions
+3. FRD
+4. detailed user journeys
+5. data/API contracts
+6. acceptance criteria
+7. PRD
+8. user stories
+9. visual design
+10. reasonable engineering judgment
+
+Do not silently choose between contradictory requirements.
+
+Document every material interpretation in:
+
+docs/ASSUMPTIONS_AND_DECISIONS.md
+
+Do not repeatedly ask for clarification if a safe and reasonable engineering decision can be made from the available context.
+
+---
+
+# 4. ZERO-ASSUMPTION RULE
+
+Do not silently invent:
+
+* fields,
+* endpoints,
+* routes,
+* roles,
+* permissions,
+* database relationships,
+* AI tools,
+* user actions,
+* environment variables,
+* third-party integrations,
+* UI states,
+* storage strategies,
+* authentication behavior,
+* pricing assumptions,
+* unsupported workflows.
+
+If implementation requires a small missing decision, make the smallest reasonable decision consistent with the architecture and document it.
+
+Avoid unnecessary complexity.
+
+This is a hackathon project.
+
+Prefer the simplest architecture capable of correctly satisfying the requirements.
+
+---
+
+# 5. LOCK THE TECH STACK
+
+The supplied locked technology stack is mandatory.
+
+Do not change frameworks, databases, libraries, infrastructure, AI providers, vector databases, storage providers, authentication strategy, or major architecture because another technology appears easier.
+
+Do not introduce additional infrastructure unless genuinely required.
+
+Prevent stack drift throughout implementation.
+
+Pin important dependency versions.
+
+Generate the appropriate dependency lock/configuration files.
+
+Every imported production dependency must be declared.
+
+Every declared dependency should have a reason to exist.
+
+Remove unused dependencies where practical.
+
+---
+
+# 6. ARCHITECTURE BEFORE IMPLEMENTATION
+
+Before building the application, internally establish the complete architecture.
+
+Confirm the boundaries between:
+
+Frontend
+↓
+Backend/API
+↓
+Application/Domain Logic
+↓
+Database
+↓
+AI Layer
+↓
+Vector Database if required
+↓
+External Services if required
+↓
+File/Object Storage if required
+
+Preserve clear separation of concerns.
+
+Do not place major business logic directly inside UI components.
+
+Do not place authorization decisions inside the LLM.
+
+Do not allow the frontend to become the authority for security-sensitive decisions.
+
+The backend remains authoritative for protected operations.
+
+---
+
+# 7. CANONICAL DOMAIN MODEL
+
+Establish one canonical representation for every core entity.
+
+Examples:
+
+User
+Organization
+Document
+Conversation
+Knowledge Base
+Job
+Candidate
+Ticket
+Policy
+Agent Run
+Evaluation Result
+
+Use one consistent identity contract.
+
+Do not randomly alternate between fields such as:
+
+id
+_id
+user_id
+userId
+employee_id
+
+unless intentional transformation is clearly defined.
+
+Entity relationships must remain consistent across:
+
+* database models,
+* backend schemas,
+* API responses,
+* frontend types/models,
+* forms,
+* query parameters,
+* AI tools.
+
+---
+
+# 8. FREEZE API CONTRACTS
+
+Before connecting frontend and backend, establish the canonical API contract.
+
+For every endpoint determine:
+
+* method,
+* route,
+* authentication requirement,
+* authorization requirement,
+* request structure,
+* response structure,
+* validation,
+* errors,
+* status codes,
+* pagination if relevant.
+
+The frontend must use these exact contracts.
+
+Do not create frontend calls to nonexistent endpoints.
+
+Do not create backend endpoints unused by intended workflows unless necessary.
+
+Avoid inconsistent response shapes.
+
+Do not sometimes return:
+
+data
+
+and elsewhere:
+
+{ "data": ... }
+
+without architectural reason.
+
+---
+
+# 9. BUILD VERTICAL FEATURES
+
+Do not blindly generate the entire backend first and then the entire frontend.
+
+Implement major capabilities as coherent vertical slices whenever practical.
+
+For example:
+
+User action
+↓
+Frontend
+↓
+API
+↓
+Backend logic
+↓
+Database/storage
+↓
+Response
+↓
+Frontend state
+↓
+Failure behavior
+
+Complete the integration of one major capability before treating it as complete.
+
+A beautiful disconnected frontend is not completion.
+
+A collection of unused backend endpoints is not completion.
+
+---
+
+# 10. FRONTEND REQUIREMENTS
+
+The frontend must be usable and demo-ready.
+
+Implement:
+
+* required pages,
+* required routes,
+* navigation,
+* forms,
+* loading states,
+* empty states,
+* success states,
+* failure states,
+* validation feedback,
+* disabled states where appropriate,
+* responsive behavior appropriate for the hackathon,
+* understandable UI hierarchy.
+
+Do not leave buttons that perform no action.
+
+Do not create fake navigation.
+
+Do not display controls that the backend does not support.
+
+Do not hardcode production feature results simply to make the UI appear functional.
+
+Use realistic seed/demo data only where explicitly useful and distinguish it from runtime-generated data.
+
+---
+
+# 11. BACKEND REQUIREMENTS
+
+The backend must implement the actual business behavior described by the FRD.
+
+Ensure:
+
+* request validation,
+* meaningful errors,
+* consistent schemas,
+* proper database usage,
+* tenant/user ownership where required,
+* authorization,
+* business-rule enforcement,
+* structured configuration,
+* startup handling,
+* external-service failure handling.
+
+Avoid giant route handlers.
+
+Separate:
+
+routing
+business logic
+data access
+AI orchestration
+
+where reasonable for the project's size.
+
+---
+
+# 12. DATABASE REQUIREMENTS
+
+Ensure database models match actual application requirements.
+
+Check:
+
+* required fields,
+* optional fields,
+* defaults,
+* ownership,
+* timestamps,
+* entity references,
+* indexes when clearly useful,
+* status enums,
+* lifecycle behavior.
+
+Provide any required initialization or seed mechanism.
+
+The application must handle an empty database gracefully.
+
+Do not assume records magically exist.
+
+---
+
+# 13. AUTHENTICATION AND AUTHORIZATION
+
+If authentication is required, implement it end-to-end.
+
+Authentication answers:
+
+Who is the user?
+
+Authorization answers:
+
+What may the user do?
+
+Do not confuse them.
+
+Never rely only on hidden frontend buttons for authorization.
+
+Protected backend operations must enforce permission checks.
+
+Never allow an LLM to decide whether a user is authorized.
+
+---
+
+# 14. PRODUCTION AI LAYER
+
+If the project contains AI functionality, implement the AI as a deliberate system rather than a simple uncontrolled prompt.
+
+Depending on the supplied architecture, consider:
+
+* structured prompts,
+* system instructions,
+* schema-constrained output,
+* retrieval,
+* citations,
+* tool calling,
+* tool authorization,
+* context management,
+* fallback handling,
+* latency visibility,
+* token usage,
+* trace metadata,
+* security boundaries,
+* eval telemetry.
+
+Do not introduce RAG merely because the project uses AI.
+
+Use RAG only when external/domain knowledge retrieval is genuinely required.
+
+Do not introduce agents when a deterministic workflow or single LLM call is sufficient.
+
+Prefer deterministic code for deterministic tasks.
+
+Use the LLM where language reasoning is actually required.
+
+---
+
+# 15. RAG REQUIREMENTS
+
+If RAG is part of the project, verify the complete pipeline:
+
+Document
+↓
+Upload/storage
+↓
+Text extraction
+↓
+Chunking
+↓
+Embedding
+↓
+Vector storage
+↓
+Retrieval
+↓
+Context assembly
+↓
+LLM response
+↓
+Source attribution
+
+Do not implement only the chat interface.
+
+Do not implement retrieval without ingestion.
+
+Do not create citations disconnected from actual retrieved sources.
+
+Treat uploaded/retrieved document content as untrusted data.
+
+Prevent retrieved content from overriding core system instructions.
+
+---
+
+# 16. AGENT REQUIREMENTS
+
+If agents are required:
+
+LLM reasoning must not bypass application security.
+
+Tools must have:
+
+* explicit purpose,
+* defined input schema,
+* controlled output,
+* backend authorization,
+* error behavior.
+
+Never expose unrestricted arbitrary execution to the LLM.
+
+Prefer a small number of meaningful tools over dozens of unnecessary ones.
+
+Record enough agent/tool activity for demonstration and observability where required.
+
+---
+
+# 17. AI EVALUATIONS
+
+Formal evaluation is required only for meaningful AI functionality.
+
+Do not create conventional application testing infrastructure unless explicitly required.
+
+For AI features, create a small but meaningful evaluation dataset appropriate to the problem.
+
+Evaluate metrics relevant to the AI capability.
+
+Examples include:
+
+* groundedness,
+* retrieval relevance,
+* answer relevance,
+* expected-answer coverage,
+* hallucination rate,
+* tool-selection correctness,
+* structured-output validity,
+* task completion,
+* latency.
+
+Do not manufacture evaluation numbers.
+
+If evaluations are executed, report actual results.
+
+If execution is impossible because required credentials/services are unavailable, state that clearly instead of inventing results.
+
+Where useful, expose evaluation results inside the application so they can be demonstrated to judges.
+
+Store AI evaluation documentation in:
+
+docs/AI_EVALS.md
+
+---
+
+# 18. EXTERNAL SERVICES
+
+For every external dependency such as:
+
+* Groq,
+* Qdrant,
+* MongoDB,
+* email,
+* Cloudinary,
+* Google Drive,
+* object storage,
+* third-party APIs,
+
+implement:
+
+configuration
+↓
+client initialization
+↓
+usage
+↓
+failure handling
+
+Never embed secrets in source code.
+
+All secrets must come from environment configuration.
+
+Provide safe `.env.example` placeholders.
+
+---
+
+# 19. ENVIRONMENT CONTRACT
+
+Create a complete `.env.example`.
+
+Every required environment variable must appear there.
+
+Group variables logically.
+
+For every variable indicate through comments or documentation:
+
+* purpose,
+* whether required,
+* expected format,
+* where the user obtains it when necessary.
+
+Source code must reference environment variable names consistently.
+
+Do not reference environment variables absent from `.env.example`.
+
+Do not leave secrets in the ZIP.
+
+---
+
+# 20. FAILURE BEHAVIOR
+
+Use the supplied Edge Cases + Failure Matrix.
+
+Every important feature should have defined behavior for realistic failure conditions.
+
+Examples:
+
+* missing input,
+* invalid input,
+* unauthorized access,
+* external API unavailable,
+* LLM unavailable,
+* rate limit,
+* empty database,
+* upload failure,
+* unsupported file,
+* retrieval returns nothing,
+* malformed AI output,
+* expired session.
+
+Users should receive understandable messages.
+
+Do not expose internal stack traces through the UI.
+
+---
+
+# 21. SECURITY BASELINE
+
+Before packaging, audit the implementation for common problems.
+
+Check for:
+
+* hardcoded secrets,
+* leaked API keys,
+* authorization bypasses,
+* unsafe file handling,
+* unsanitized user input,
+* prompt injection risks,
+* unsafe LLM tool execution,
+* overly permissive CORS,
+* sensitive debug logging,
+* secrets committed into documentation,
+* client-side-only authorization,
+* accidental exposure of environment variables.
+
+Apply security proportional to the hackathon scope.
+
+Do not waste hackathon time implementing enterprise complexity irrelevant to the problem.
+
+---
+
+# 22. QUALITY AUDIT
+
+Inspect the completed codebase for internal consistency.
+
+Look specifically for:
+
+* unused imports,
+* broken imports,
+* circular dependencies,
+* duplicate models,
+* duplicate API contracts,
+* conflicting routes,
+* inconsistent naming,
+* missing dependencies,
+* invalid configuration,
+* stale mock code,
+* debug-only shortcuts,
+* commented-out abandoned implementations,
+* placeholder UI,
+* TODOs affecting required functionality.
+
+Resolve material issues before release.
+
+---
+
+# 23. NO PLACEHOLDER COMPLETION
+
+Do not use any of the following to fake completion:
+
+TODO
+
+COMING SOON
+
+NOT IMPLEMENTED
+
+dummy API response
+
+hardcoded AI output
+
+fake success notification
+
+non-functional button
+
+static dashboard numbers presented as live
+
+empty function body
+
+mock integration presented as real
+
+placeholder page presented as complete
+
+If a requirement cannot be completed, record it explicitly in the implementation report.
+
+Do not disguise it.
+
+---
+
+# 24. REQUIREMENTS TRACEABILITY
+
+Before release, map important requirements to their implementation.
+
+Use:
+
+Requirement
+→ implementation
+→ runtime verification status
+
+For AI requirements:
+
+AI requirement
+→ implementation
+→ evaluation
+→ result
+
+Do not use conventional software test terminology unless explicitly required.
+
+Create:
+
+docs/REQUIREMENTS_TRACEABILITY.md
+
+Use statuses such as:
+
+VERIFIED
+
+IMPLEMENTED — NOT RUNTIME VERIFIED
+
+BLOCKED BY EXTERNAL SERVICE
+
+NOT IMPLEMENTED
+
+Never use vague claims such as:
+
+"should work"
+
+"probably works"
+
+"appears complete"
+
+---
+
+# 25. RUNTIME VERIFICATION
+
+Actually attempt to start everything that can reasonably be started inside the available environment.
+
+Verify things such as:
+
+* dependency installation/configuration,
+* frontend startup,
+* backend startup,
+* database initialization,
+* service connectivity,
+* route loading,
+* major integrations.
+
+Fix startup failures before release wherever possible.
+
+A project whose code looks correct but cannot start is not considered successfully verified.
+
+Do not claim successful runtime verification unless it actually occurred.
+
+---
+
+# 26. CRITICAL JOURNEY VERIFICATION
+
+Use the supplied Detailed Zero-Assumption Journeys.
+
+Exercise the most important end-to-end product flows where the environment permits.
+
+Example:
+
+Open application
+↓
+Login
+↓
+Perform primary action
+↓
+Backend processes request
+↓
+Database updates
+↓
+AI executes if required
+↓
+Result appears in frontend
+
+Verify the product from the user's perspective.
+
+You do NOT need to create conventional automated test suites.
+
+This stage is runtime journey verification only.
+
+Record results in:
+
+docs/VERIFICATION_REPORT.md
+
+---
+
+# 27. CLEAN INSTALLATION VERIFICATION
+
+The most important release question is:
+
+"Can another person download this ZIP and start the project?"
+
+Before final packaging, reproduce that experience as closely as the environment permits.
+
+Treat the release as though it were being given to a developer who has never seen the project.
+
+Verify:
+
+extract project
+↓
+read START_HERE.md
+↓
+prepare environment
+↓
+install dependencies
+↓
+configure environment variables
+↓
+start infrastructure
+↓
+initialize required data
+↓
+start backend
+↓
+start frontend
+↓
+open application
+
+Detect hidden dependencies on:
+
+* your current shell,
+* temporary files,
+* absolute filesystem paths,
+* undeclared packages,
+* caches,
+* globally installed libraries,
+* local secrets,
+* files outside the repository.
+
+Remove such dependencies.
+
+---
+
+# 28. REQUIRED ROOT STRUCTURE
+
+The exact implementation structure may vary with the locked stack, but the release should contain clear equivalents of:
+
+project/
+│
+├── START_HERE.md
+├── README.md
+├── .env.example
+├── .gitignore
+├── frontend/
+├── backend/
+├── scripts/
+├── docs/
+└── required infrastructure configuration
+
+Do not include unnecessary generated artifacts.
+
+Do not package:
+
+node_modules/
+
+.venv/
+
+**pycache**/
+
+build caches
+
+IDE metadata
+
+temporary files
+
+logs
+
+private keys
+
+real environment files containing secrets
+
+unless there is an exceptional documented reason.
+
+---
+
+# 29. START_HERE.md — MANDATORY
+
+This is one of the most important release files.
+
+A developer should not need another conversation simply to figure out how to launch the application.
+
+START_HERE.md must provide the shortest reliable route from:
+
+ZIP extracted
+
+to:
+
+APPLICATION RUNNING
+
+It must contain:
+
+## Prerequisites
+
+Exact required software and important versions.
+
+Example:
+
+Node.js
+Python
+Docker Desktop
+
+Only include tools genuinely required.
+
+## Environment setup
+
+Explain exactly how to create the runtime environment file.
+
+Example:
+
+copy `.env.example` to `.env`
+
+Explain which values must be supplied.
+
+## Infrastructure startup
+
+Provide exact commands where infrastructure is required.
+
+## Backend setup
+
+Provide exact commands.
+
+## Frontend setup
+
+Provide exact commands.
+
+## Database initialization
+
+Provide exact command if required.
+
+## Application startup
+
+Provide exact commands.
+
+## URLs
+
+State actual local URLs.
+
+For example:
+
+Frontend:
+http://localhost:5173
+
+Backend:
+http://localhost:8000
+
+API Documentation:
+http://localhost:8000/docs
+
+## Demo credentials
+
+If demo accounts are intentionally seeded, provide safe demo credentials.
+
+Never include genuine credentials.
+
+## Troubleshooting
+
+Include only the most likely startup problems.
+
+Keep START_HERE.md concise.
+
+A hackathon participant should be able to scan it quickly.
+
+---
+
+# 30. STARTUP SCRIPTS
+
+Where appropriate, include convenient startup/setup scripts.
+
+Examples:
+
+scripts/setup.sh
+
+scripts/setup.ps1
+
+scripts/start.sh
+
+scripts/start.ps1
+
+or appropriate equivalents.
+
+Do not depend entirely on scripts.
+
+START_HERE.md must still explain the commands.
+
+Because development may occur on Windows, provide Windows-compatible instructions where practical.
+
+---
+
+# 31. README.md
+
+README.md should explain the project to someone evaluating it.
+
+Include:
+
+* project name,
+* problem,
+* solution,
+* major features,
+* architecture summary,
+* AI usage,
+* technology stack,
+* setup pointer,
+* screenshots/demo section if applicable,
+* known limitations.
+
+Keep deep setup details in START_HERE.md.
+
+---
+
+# 32. IMPLEMENTATION_REPORT.md
+
+Create:
+
+docs/IMPLEMENTATION_REPORT.md
+
+It must honestly describe:
+
+## Implemented
+
+What was actually built.
+
+## Architecture
+
+Important implementation decisions.
+
+## AI
+
+How AI/RAG/agents work.
+
+## Security
+
+Important controls.
+
+## Runtime Verification
+
+What was actually started or exercised.
+
+## AI Evals
+
+What was evaluated and actual results if available.
+
+## Known Limitations
+
+Anything incomplete or constrained.
+
+## External Dependencies
+
+Anything that requires credentials or third-party infrastructure.
+
+## Demo Path
+
+The strongest sequence for showing the product to judges.
+
+Never hide limitations.
+
+A truthful known limitation is better than a fake implementation.
+
+---
+
+# 33. DEMO READINESS
+
+The final project is being built for a time-constrained hackathon.
+
+Prioritize the strongest end-to-end demo path.
+
+The project should have a clear story:
+
+Problem
+↓
+User Action
+↓
+AI/System Intelligence
+↓
+Useful Result
+↓
+Proof/Evaluation
+↓
+Business Value
+
+Avoid building many shallow features at the expense of the primary workflow.
+
+Polish the main journey first.
+
+---
+
+# 34. TOKEN AND TIME EFFICIENCY
+
+Do not waste implementation effort on unnecessary enterprise patterns.
+
+Avoid:
+
+* needless microservices,
+* excessive abstractions,
+* dozens of generic interfaces,
+* infrastructure unrelated to the problem,
+* premature scalability,
+* unnecessary libraries,
+* large conventional test suites,
+* overcomplicated state management,
+* unnecessary agent frameworks.
+
+Prefer a compact architecture that is easy to understand and reliable during the demo.
+
+Production-minded does NOT mean enterprise-sized.
+
+---
+
+# 35. SELF-CORRECTION RULE
+
+During implementation, if you discover that an earlier architectural decision causes:
+
+* requirement conflicts,
+* broken integration,
+* unnecessary complexity,
+* impossible user journeys,
+
+correct the implementation rather than blindly preserving a bad decision.
+
+However:
+
+do not change locked product requirements or technology decisions without strong necessity.
+
+Document material deviations.
+
+---
+
+# 36. VERIFICATION LANGUAGE
+
+Use these definitions consistently.
+
+## IMPLEMENTED
+
+Source code exists and the feature is connected across its required layers.
+
+## VERIFIED
+
+The relevant runtime behavior was actually exercised successfully.
+
+## AI-EVALUATED
+
+The AI capability was run against the defined evaluation set and results were recorded.
+
+## UNVERIFIED
+
+Implementation exists but runtime execution could not be confirmed.
+
+## BLOCKED
+
+Verification depends on unavailable credentials, external services, infrastructure, or environment limitations.
+
+Never mark something VERIFIED based only on reading source code.
+
+---
+
+# 37. RELEASE GATE
+
+Do not produce the final release ZIP immediately after code generation.
+
+Before packaging, perform a final release audit.
+
+Confirm:
+
+□ supplied requirements were considered
+□ locked stack was respected
+□ primary user journey is implemented
+□ frontend/backend contracts align
+□ database models align
+□ environment variables align
+□ required dependencies are declared
+□ imports resolve as far as verification permits
+□ authentication/authorization behavior is coherent
+□ AI pipeline is complete where required
+□ AI evals exist where required
+□ important failure states exist
+□ no real secrets are packaged
+□ no fake implementations remain in required flows
+□ runtime startup was attempted
+□ important user journeys were verified where possible
+□ documentation reflects actual implementation
+□ START_HERE.md contains exact startup instructions
+□ implementation limitations are disclosed
+□ release folder is clean
+
+If a release-gate item fails:
+
+fix it if reasonably possible.
+
+If it cannot be fixed:
+
+document it explicitly.
+
+Do not silently ignore it.
+
+---
+
+# 38. RELEASE PACKAGING
+
+Create the final ZIP only after the release audit.
+
+The ZIP must contain the project root directly in a sensible structure.
+
+Use a meaningful filename.
+
+Example:
+
+project-name-hackathon-release.zip
+
+Before delivering the ZIP:
+
+inspect its contents.
+
+Ensure required files are present.
+
+Ensure junk files and secrets are absent.
+
+Ensure documentation paths are valid.
+
+Ensure README and START_HERE reference actual files and commands.
+
+---
+
+# 39. FINAL RESPONSE FORMAT
+
+When the entire build is complete, keep the final response concise.
+
+Provide:
+
+1. download link to the generated ZIP,
+2. implementation status,
+3. runtime verification status,
+4. AI evaluation status if applicable,
+5. important external requirements,
+6. known limitations,
+7. instruction to begin with `START_HERE.md`.
+
+Do not dump enormous implementation details into the chat if they already exist inside the project documentation.
+
+---
+
+# 40. CRITICAL BEHAVIORAL RULES
+
+These rules override the temptation to finish quickly.
+
+DO NOT:
+
+* fabricate success,
+* fabricate AI evaluation metrics,
+* pretend unavailable services were exercised,
+* leave required features disconnected,
+* replace functionality with UI-only mockups,
+* invent undocumented product behavior without recording the decision,
+* change the locked technology stack casually,
+* create unnecessary infrastructure,
+* expose secrets,
+* rely on undeclared local dependencies,
+* claim runtime verification from static code inspection,
+* stop after generating files without auditing the result.
+
+DO:
+
+* reason across the whole repository,
+* maintain cross-file consistency,
+* make minimal logical assumptions,
+* prefer simple reliable implementations,
+* fix issues discovered during verification,
+* verify important runtime flows,
+* evaluate the AI layer,
+* document limitations,
+* package a clean release,
+* make startup extremely simple.
+
+---
+
+# FINAL DEFINITION OF DONE
+
+The project is not "done" because many files were generated.
+
+The project is done when, to the maximum extent permitted by the available environment:
+
+DOCUMENTATION
+↓
+REQUIREMENTS
+↓
+ARCHITECTURE
+↓
+IMPLEMENTATION
+↓
+FRONTEND ↔ BACKEND ↔ DATA
+↓
+AI / RAG / AGENT
+↓
+AI EVALUATION
+↓
+SECURITY + QUALITY AUDIT
+↓
+RUNTIME VERIFICATION
+↓
+CRITICAL JOURNEY VERIFICATION
+↓
+CLEAN INSTALLATION VERIFICATION
+↓
+START_HERE.md
+↓
+CLEAN RELEASE ZIP
+
+The final deliverable should feel like:
+
+"Extract → configure → install → start → demo"
+
+rather than:
+
+"Extract → discover missing pieces → ask ChatGPT repeatedly → debug architecture → rebuild project."
+
+Build the project accordingly.

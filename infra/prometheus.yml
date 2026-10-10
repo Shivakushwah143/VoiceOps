@@ -1,0 +1,8 @@
+global:
+  scrape_interval: 15s
+scrape_configs:
+  - job_name: voiceops
+    authorization:
+      credentials_file: /etc/prometheus/token
+    static_configs:
+      - targets: ['app:8000']

@@ -1,0 +1,46 @@
+{
+  "kind": "deterministic policy checks",
+  "results": [
+    {
+      "case": "network",
+      "status": "VERIFIED",
+      "fixture": "injected provider failure, no live model"
+    },
+    {
+      "case": "timeout",
+      "status": "VERIFIED",
+      "fixture": "injected provider failure, no live model"
+    },
+    {
+      "case": "unavailable",
+      "status": "VERIFIED",
+      "fixture": "injected provider failure, no live model"
+    },
+    {
+      "case": "credentials",
+      "status": "VERIFIED",
+      "fixture": "injected provider failure, no live model"
+    },
+    {
+      "case": "authorization",
+      "status": "VERIFIED",
+      "fixture": "injected provider failure, no live model"
+    },
+    {
+      "case": "schema",
+      "status": "VERIFIED",
+      "fixture": "injected provider failure, no live model"
+    },
+    {
+      "case": "request",
+      "status": "VERIFIED",
+      "fixture": "injected provider failure, no live model"
+    },
+    {
+      "case": "rate_limit",
+      "status": "VERIFIED",
+      "fixture": "injected provider failure, no live model"
+    }
+  ],
+  "live_ai": "BLOCKED; no configured model service"
+}
